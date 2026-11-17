@@ -147,10 +147,11 @@ class MainActivity : Activity() {
                     val value = min + progress
                     valueText.text = label + ": " + value + unit
                     prefs.edit().putInt(key, value).apply()
-                    if (key == "panel_count" && ::panelSpinner.isInitialized) refreshPanelSpinner()
                 }
                 override fun onStartTrackingTouch(bar: SeekBar?) {}
-                override fun onStopTrackingTouch(bar: SeekBar?) {}
+                override fun onStopTrackingTouch(bar: SeekBar?) {
+                    if (key == "panel_count") refreshPanelSpinner()
+                }
             })
         }
         root.addView(seek, matchWidth())
