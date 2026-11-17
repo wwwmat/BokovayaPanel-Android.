@@ -97,7 +97,6 @@ class MainActivity : Activity() {
         root.addView(appsContainer, matchWidth())
         refreshAppList()
         addButton("Применить настройки (перезапустить панель)") {
-            val wasRunning = true
             stopService(Intent(this, SidePanelService::class.java))
             if (Settings.canDrawOverlays(this)) {
                 val i = Intent(this, SidePanelService::class.java)
@@ -148,6 +147,7 @@ class MainActivity : Activity() {
                     val value = min + progress
                     valueText.text = label + ": " + value + unit
                     prefs.edit().putInt(key, value).apply()
+                    if (key == "panel_count" && ::panelSpinner.isInitialized) refreshPanelSpinner()
                 }
                 override fun onStartTrackingTouch(bar: SeekBar?) {}
                 override fun onStopTrackingTouch(bar: SeekBar?) {}
