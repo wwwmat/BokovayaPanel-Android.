@@ -76,7 +76,9 @@ class SidePanelService : Service() {
                     MotionEvent.ACTION_DOWN -> { downX = event.rawX; downY = event.rawY; true }
                     MotionEvent.ACTION_UP -> {
                         val dx = event.rawX - downX
-                        if (dx < -dp(20)) showTray() else if (abs(dx) < dp(12)) {
+                        if (dx < -dp(20)) showTray()
+                        else if (dx > dp(20)) hideTray()
+                        else if (abs(dx) < dp(12)) {
                             if (opened) hideTray() else showTray()
                         }
                         true
@@ -109,6 +111,8 @@ class SidePanelService : Service() {
         for (index in 0 until count) {
             val page = LinearLayout(this).apply {
                 orientation = LinearLayout.VERTICAL
+                alpha = 0f
+                translationX = dp(28).toFloat()
                 setPadding(dp(14), dp(10), dp(14), dp(10))
                 background = GradientDrawable().apply {
                     setColor(Color.argb(alpha, 27, 33, 30))
@@ -173,6 +177,14 @@ class SidePanelService : Service() {
             val pageParams = LinearLayout.LayoutParams(pageWidth, dp(126))
             pageParams.marginEnd = dp(8)
             pages.addView(page, pageParams)
+            page.post {
+                page.animate()
+                    .alpha(1f)
+                    .translationX(0f)
+                    .setStartDelay(index * 85L)
+                    .setDuration(220)
+                    .start()
+            }
         }
 
         val horizontal = HorizontalScrollView(this).apply {
