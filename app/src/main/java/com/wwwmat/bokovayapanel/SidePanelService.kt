@@ -186,20 +186,7 @@ class SidePanelService : Service() {
         horizontal.alpha = 0f
         horizontal.translationY = dp(26).toFloat()
         horizontal.animate().alpha(1f).translationY(0f).setDuration(230).start()
-        // A left/right fling moves through the panels one by one.
-        horizontal.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_DOWN) {
-                downX = event.rawX
-                true
-            } else if (event.action == MotionEvent.ACTION_UP) {
-                val delta = event.rawX - downX
-                if (abs(delta) > dp(35)) {
-                    val next = if (delta < 0) (horizontal.scrollX + pageWidth).coerceAtMost(pages.width) else (horizontal.scrollX - pageWidth).coerceAtLeast(0)
-                    horizontal.smoothScrollTo(next, 0)
-                    true
-                } else false
-            } else true
-        }
+
     }
 
     private fun hideTray() {
