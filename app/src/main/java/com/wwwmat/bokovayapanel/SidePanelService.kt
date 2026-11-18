@@ -100,7 +100,7 @@ class SidePanelService : Service() {
         val prefs = getSharedPreferences("panel_settings", MODE_PRIVATE)
         val count = prefs.getInt("panel_count", 3).coerceIn(1, 10)
         val opacity = prefs.getInt("opacity", 92).coerceIn(0, 100)
-        val alpha = (244 * opacity / 100).coerceIn(0, 255)
+        val backgroundAlpha = (244 * opacity / 100).coerceIn(0, 255)
         val screenWidth = resources.displayMetrics.widthPixels
         val pageWidth = (screenWidth - dp(28)).coerceAtLeast(dp(220))
 
@@ -115,7 +115,7 @@ class SidePanelService : Service() {
                 translationX = dp(28).toFloat()
                 setPadding(dp(14), dp(10), dp(14), dp(10))
                 background = GradientDrawable().apply {
-                    setColor(Color.argb(alpha, 27, 33, 30))
+                    setColor(Color.argb(backgroundAlpha, 27, 33, 30))
                     cornerRadius = dp(18).toFloat()
                     setStroke(dp(1), Color.argb(100, 120, 190, 145))
                 }
